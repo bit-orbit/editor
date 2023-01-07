@@ -1,20 +1,17 @@
 <script lang="ts">
-  import { NodeViewWrapper } from "svelte-tiptap";
+  import { NodeViewWrapper, editable } from "svelte-tiptap";
   import type { NodeViewProps } from "@tiptap/core";
 
   export let updateAttributes: NodeViewProps["updateAttributes"];
   export let extension: NodeViewProps["extension"];
 </script>
 
-<NodeViewWrapper class="relative" dir="ltr">
-  <pre spellCheck={false}>
-		<code contenteditable="true" data-node-view-content="" style="white-space: pre-wrap;" />
-		</pre>
+<NodeViewWrapper as="pre" class="relative group" dir="ltr" spellcheck="false">
+  <code use:editable contenteditable="true" />
   <select
-    class="hljs absolute top-2 right-2 text-sm"
+    class="hljs absolute top-2 right-2 p-1 text-sm opacity-0 group-hover:opacity-100 duration-200"
     contenteditable="false"
     on:change={(event) => {
-      console.log(event.currentTarget.value);
       updateAttributes({ language: event.currentTarget.value });
     }}
   >

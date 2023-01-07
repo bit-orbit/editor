@@ -1,7 +1,7 @@
 <script lang="ts">
   import Trash from "tabler-icons-svelte/icons/Trash.svelte";
   import cx from "clsx";
-  import { NodeViewWrapper } from "svelte-tiptap";
+  import { NodeViewWrapper, editable } from "svelte-tiptap";
   import type { NodeViewProps } from "@tiptap/core";
 
   export let node: NodeViewProps["node"];
@@ -30,6 +30,11 @@
     >
       <Trash />
     </button>
-    <figcaption class="text-center focus:outline-none" dir="auto" />
+    <figcaption
+      use:editable
+      contenteditable="true"
+      class="text-center focus:outline-none"
+      dir="auto"
+    />
   </figure>
 </NodeViewWrapper>
