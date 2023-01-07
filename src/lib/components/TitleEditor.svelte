@@ -51,7 +51,7 @@
 </script>
 
 {#if $editor}
-  <div class="prose prose-sm sm:prose-base mx-auto py-8 px-1 sm:px-2">
+  <div class="prose prose-sm sm:prose-base mx-auto py-8 px-1 sm:px-2 !max-w-[600px]">
     <EditorContent editor={$editor} />
     <div class="text-gray-400 float-left">
       {new Intl.NumberFormat("fa").format(
