@@ -76,11 +76,6 @@
     )}
   >
     <EditorContent editor={$editor} />
-    <div class="text-gray-400">
-      {new Intl.NumberFormat("fa", { useGrouping: false }).format(
-        $editor?.storage?.characterCount?.words() || 0
-      )} کلمه
-    </div>
   </div>
 {:else}
   <div class="flex flex-col items-center">
