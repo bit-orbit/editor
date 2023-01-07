@@ -3,11 +3,10 @@
   import CameraPlus from "tabler-icons-svelte/icons/CameraPlus";
   import ToolbarButton from "$lib/components/ToolbarButton.svelte";
   import { toast } from "@zerodevx/svelte-toast";
+  import { MAX_IMAGE_SIZE_IN_BYTES } from "$lib/constants";
   import type { Editor } from "svelte-tiptap";
 
   export let editor: Editor;
-
-  const MAX_IMAGE_SIZE_IN_MB = 4;
 
   let imageInputRef: HTMLInputElement;
 
@@ -26,14 +25,14 @@
       imageInputRef.value = "";
     }
 
-    if (file.size > MAX_IMAGE_SIZE_IN_MB * 1000000) {
-      toast.push(`حجم تصاویر حداکثر میتواند ${MAX_IMAGE_SIZE_IN_MB} مگابایت باشد`);
+    if (file.size > MAX_IMAGE_SIZE_IN_BYTES) {
+      toast.push(`حجم تصاویر حداکثر میتواند ${MAX_IMAGE_SIZE_IN_BYTES / 1000000} مگابایت باشد`);
       return;
     }
 
     const arrayBufferReader = new FileReader();
 
-    arrayBufferReader.onload = (e) => {
+    arrayBufferReader.onload = async (e) => {
       if (!e.target?.result) {
         return;
       }
@@ -46,10 +45,6 @@
         {
           mime: "image/jpeg",
           pattern: [0xff, 0xd8, 0xff]
-        },
-        {
-          mime: "image/gif",
-          pattern: [0x47, 0x49, 0x46, 0x38]
         },
         {
           mime: "image/webp",
@@ -77,29 +72,34 @@
       const valid = imageMimes.some((mime) => mime.pattern.every((p, i) => !p || bytes[i] === p));
 
       if (!valid) {
-        toast.push("تنها فایل های png, jpeg, gif و webp قابل آپلود هستند");
+        toast.push("تنها فایل های png, jpeg و webp قابل آپلود هستند");
         return;
       }
 
-      const reader = new FileReader();
+      const formData = new FormData();
+      formData.append("image", file);
 
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        if (e.target?.result) {
+      const res = await fetch("/api/image", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        if (data.url) {
           editor
             .chain()
             .focus()
             .setFigure({
-              src: e.target.result as string
+              src: data.url
             })
             .run();
         }
-      };
-
-      reader.onerror = () => {
-        toast.push("برگذاری فایل ناموفق بود لطفا دوباره امتحان کنید");
-      };
-
-      reader.readAsDataURL(file);
+      } else {
+        const error = await res.json();
+        toast.push(error.message || "هنگام آپلود عکس خطایی رخ داد. لطفا دوباره امتحان کنید.");
+      }
     };
 
     arrayBufferReader.readAsArrayBuffer(file.slice(0, 14));
