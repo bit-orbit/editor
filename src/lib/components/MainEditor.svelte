@@ -5,7 +5,6 @@
   import CharacterCount from "@tiptap/extension-character-count";
   import Link from "@tiptap/extension-link";
   import Placeholder from "@tiptap/extension-placeholder";
-  import Underline from "@tiptap/extension-underline";
   import SmilieReplacer from "$lib/extensions/SmilieReplacer";
   import Heading from "$lib/extensions/Heading";
   import TextDirection from "$lib/extensions/TextDirection";
@@ -41,7 +40,6 @@
         }),
         CodeBlock,
         Heading,
-        Underline,
         Figure,
         SmilieReplacer,
         CharacterCount,

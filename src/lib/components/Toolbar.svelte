@@ -10,7 +10,6 @@
     LineDashed,
     Bold,
     Italic,
-    Underline,
     ListNumbers,
     ListDetails,
     Strikethrough
@@ -132,14 +131,6 @@
       on:click={() => editor.chain().focus().toggleItalic().run()}
     >
       <Italic />
-    </ToolbarButton>
-
-    <ToolbarButton
-      title="خط زیر (Ctrl+U)"
-      active={editor.isActive("underline")}
-      on:click={() => editor.chain().focus().toggleUnderline().run()}
-    >
-      <Underline />
     </ToolbarButton>
 
     <ToolbarButton
