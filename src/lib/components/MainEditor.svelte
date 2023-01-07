@@ -14,6 +14,8 @@
 
   import { onMount } from "svelte";
   import { createEditor } from "svelte-tiptap";
+  import { MAIN_EDITOR_LOCALSTORAGE_KEY } from "$lib/constants";
+  import { mainEditorContent } from "$lib/stores";
   import Toolbar from "$lib/components/Toolbar.svelte";
   import EditorContent from "svelte-tiptap/EditorContent.svelte";
   import type { Readable } from "svelte/store";
@@ -22,7 +24,15 @@
   let editor: Readable<Editor>;
 
   onMount(() => {
+    const content = window.localStorage.getItem(MAIN_EDITOR_LOCALSTORAGE_KEY) || "";
+    mainEditorContent.set(content);
     editor = createEditor({
+      content,
+      onUpdate({ editor }) {
+        const html = editor.getHTML();
+        window.localStorage.setItem(MAIN_EDITOR_LOCALSTORAGE_KEY, html);
+        mainEditorContent.set(html);
+      },
       extensions: [
         StarterKit.configure({
           heading: false,

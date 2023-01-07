@@ -8,6 +8,8 @@
 
   import { onMount } from "svelte";
   import { createEditor } from "svelte-tiptap";
+  import { TITLE_EDITOR_LOCALSTORAGE_KEY } from "$lib/constants";
+  import { titleEditorContent } from "$lib/stores";
   import EditorContent from "svelte-tiptap/EditorContent.svelte";
   import type { Readable } from "svelte/store";
   import type { Editor } from "svelte-tiptap";
@@ -21,7 +23,15 @@
   });
 
   onMount(() => {
+    const content = window.localStorage.getItem(TITLE_EDITOR_LOCALSTORAGE_KEY) || "";
+    titleEditorContent.set(content);
     editor = createEditor({
+      content,
+      onUpdate({ editor }) {
+        const text = editor.getText();
+        window.localStorage.setItem(TITLE_EDITOR_LOCALSTORAGE_KEY, text);
+        titleEditorContent.set(text);
+      },
       extensions: [
         TitleDocument,
         Text,
