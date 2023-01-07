@@ -29,7 +29,20 @@
   }
 </script>
 
-<ToolbarButton title="لینک" active={editor.isActive("link")} on:click={() => (open = !open)}>
+<ToolbarButton
+  title="لینک"
+  active={editor.isActive("link")}
+  on:click={() => {
+    editor
+      .chain()
+      .focus()
+      .command(({ editor }) => {
+        link = editor.isActive("link") ? editor.getAttributes("link").href || "" : "";
+        return true;
+      });
+    open = !open;
+  }}
+>
   <Link />
 </ToolbarButton>
 
