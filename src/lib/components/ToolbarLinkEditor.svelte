@@ -22,6 +22,7 @@
       editor
         .chain()
         .focus()
+        .extendMarkRange("link")
         .setLink({ href: link })
         .setTextSelection(editor.state.selection.to)
         .run();
