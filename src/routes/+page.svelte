@@ -11,7 +11,7 @@
 {#if $page.data.session}
   <TitleEditor />
   <MainEditor />
-  <div class="sticky bottom-0 bg-white">
+  <div class="sticky bottom-0 bg-slate-200">
     <div class="!max-w-[600px] mx-auto p-1">
       <button
         disabled={$mainEditorContent.length < 1 || $titleEditorContent.length < 1}
