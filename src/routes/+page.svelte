@@ -1,14 +1,16 @@
 <script lang="ts">
   import TitleEditor from "$lib/components/TitleEditor.svelte";
   import MainEditor from "$lib/components/MainEditor.svelte";
-  import { page } from "$app/stores";
   import { mainEditorContent, titleEditorContent } from "$lib/stores";
   import { signIn } from "@auth/sveltekit/client";
   import { createMarkdownSerializer } from "$lib/markdownSerializer";
   import { goto } from "$app/navigation";
+  import type { PageServerData } from "./$types";
+
+  export let data: PageServerData;
 </script>
 
-{#if $page.data.session}
+{#if data.session}
   <TitleEditor />
   <MainEditor />
   <div class="sticky bottom-0 bg-slate-200">
@@ -20,7 +22,7 @@
             method: "POST",
             headers: {
               Accept: "application/vnd.github+json",
-              Authorization: `Bearer ${$page.data.session?.accessToken}`
+              Authorization: `Bearer ${data.session?.accessToken}`
             },
             body: JSON.stringify({
               title: $titleEditorContent,
