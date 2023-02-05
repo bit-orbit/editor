@@ -70,7 +70,7 @@
   <div
     class={cx(
       "mt-6 mx-auto px-1 sm:px-2 pb-4 !max-w-[600px]",
-      "prose prose-sm sm:prose-base md:prose-md",
+      "prose prose-sm sm:prose-base md:prose-md prose-ol:list-[persian] prose-ol:pr-4 prose-ol:pl-0 prose-ul:pr-4 prose-ul:pl-0",
       "prose-img:mb-2 prose-img:rounded prose-figcaption:text-center",
       "prose-a:text-rose-500"
     )}
