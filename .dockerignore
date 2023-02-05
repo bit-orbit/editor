@@ -3,5 +3,4 @@ node_modules
 dev-dist
 .git
 npm-debug.log
-Dockerfile
 .dockerignore
